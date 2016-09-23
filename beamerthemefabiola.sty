@@ -1,0 +1,73 @@
+\ProvidesPackage{beamerthemefabiola}[2016/07/29]
+
+\RequirePackage{xparse}
+\RequirePackage{xcolor}
+\RequirePackage{expl3}
+\RequirePackage{lcg}
+\RequirePackage{etoolbox}
+
+\newcommand\seed{0}
+
+\mode<presentation>
+
+\DeclareOption*{\renewcommand\seed{\CurrentOption}}
+\ProcessOptions
+
+\reinitrand[first=0, last=4, seed=\seed]
+
+\ExplSyntaxOn
+\definecolorset{HTML}{colorA}{}{
+  0,cc0000;
+  1,009d91;
+  2,ffd21f;
+  3,3016b0;
+  4,e61717
+}
+\definecolorset{HTML}{colorB}{}{
+  0,ffc814;
+  1,dc0055;
+  2,ff1fbc;
+  3,ff8300;
+  4,bede16
+}
+\definecolorset{HTML}{colorC}{}{
+  0,7fd215;
+  1,ffc000;
+  2,1f4cff;
+  3,d2f700;
+  4,185c94
+}
+
+\NewDocumentCommand \randomcolors {}
+{%
+  \rand 
+  \colorlet{colorA}{colorA\arabic{rand}}
+  \colorlet{colorC}{colorC\arabic{rand}}
+  \colorlet{colorB}{colorB\arabic{rand}}
+}
+\ExplSyntaxOff
+
+
+\colorlet{colorA}{colorA1}
+\colorlet{colorC}{colorC1}
+\colorlet{colorB}{colorB1}
+\randomcolors
+
+\setbeamercolor{background canvas}{bg=colorA}
+
+\setbeamercolor{normal text}{fg=colorC}
+\setbeamercolor{block body}{fg=colorA, bg=colorB}
+
+\setbeamercolor{structure}{fg=colorB}
+\setbeamercolor{local structure}{fg=colorB}
+\setbeamercolor{title page}{fg=colorB}
+\setbeamercolor{block title}{fg=colorB, bg=colorC}
+
+\setbeamercolor{primary palette}{fg=white}
+\BeforeBeginEnvironment{frame}{%
+  \randomcolors%
+  \usebeamercolor[fg]{normal text}%
+}
+
+\setbeamertemplate{navigation symbols}{}
+\mode<all>
